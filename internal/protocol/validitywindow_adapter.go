@@ -3,7 +3,12 @@ package protocol
 import "time"
 
 func ValidityWindowSameDay(left, right time.Time, location *time.Location) bool {
-	return ValidityWindowDay(left, location) == ValidityWindowDay(right, location)
+	if location == nil {
+		location = time.UTC
+	}
+	leftDay := ValidityWindowDay(left, location)
+	rightDay := ValidityWindowDay(right, location)
+	return leftDay == rightDay
 }
 func ValidityWindowExpiry(t time.Time, location *time.Location) time.Time {
 	if location == nil {
